@@ -1,20 +1,14 @@
 import type { Config } from "tailwindcss";
+import config from "fast-jsx/tailwind.config";
+const { theme, plugins } = config;
 
-const config: Config = {
+export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/fast-jsx/**/*.{js,jsx,ts,tsx}",
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
-  theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-    },
-  },
-  plugins: [],
-};
-export default config;
+  theme,
+  plugins,
+  darkMode: "selector",
+} satisfies Config;
