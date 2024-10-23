@@ -11,7 +11,8 @@ import useSign from "@/hook/useSIgn";
 export default function Chat() {
   const [text, setText] = useState<string>();
   const { setModal } = useActionStore();
-  const { messages, setMessage, postChat } = useChat();
+  const { messages, setMessage, postChat, clearMessages, setPrompt, prompt } =
+    useChat();
   const { isLoading, isSignIn } = useSign();
   const container = {
     positions: "relative",
@@ -38,19 +39,36 @@ export default function Chat() {
           <Modal
             key="setting"
             titles={{
-              title: "설정",
-              subtitle: "",
+              title: "Prompting",
+              subtitle: "텍스트 변경시 자동 저장",
             }}
             option={{
               height: "lg",
             }}
           >
-            <div>asfd</div>
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className={cn({
+                sizes: "w-full h-72",
+                styles: "border-2 border-[#023076] rounded-md p-3.5",
+              })}
+            />
           </Modal>,
         ],
       ]}
     >
       <div className={cn(container)}>
+        <Button
+          title="초기화"
+          onClick={() => clearMessages()}
+          option={{
+            width: "w-12",
+            height: "h-12",
+            font: "text-lg",
+            position: "absolute top-1.5 right-15",
+          }}
+        />
         <Button
           title="설정"
           onClick={() => setModal("setting")}
@@ -62,12 +80,12 @@ export default function Chat() {
           }}
         />
         <div className={cn(body)}>
-          {messages.map((message) => (
+          {messages?.map((message) => (
             <MessageMolecule
-              key={message.text}
-              message={message.text}
+              key={message.content}
+              message={message.content}
               option={{
-                isMine: message.user === "user",
+                isMine: message.role === "user",
               }}
             />
           ))}
@@ -85,8 +103,8 @@ export default function Chat() {
               if (!text) return;
               if (e.key === "Enter") {
                 setMessage({
-                  user: "user",
-                  text,
+                  role: "user",
+                  content: text,
                 });
                 postChat(text);
                 return setText("");
