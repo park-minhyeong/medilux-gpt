@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "pretendard-medium";
+    src: url("/fonts/Pretendard-Medium.otf") format("opentype");
+} 
