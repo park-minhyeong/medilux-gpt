@@ -24,18 +24,23 @@ const useChatStore = create(
         });
       },
     }),
-    { name: "chatStorage" }
-  )
+    { name: "chatStorage" },
+  ),
 );
 
 export default function useChat() {
   const { messages, setMessage } = useChatStore();
   const { mutate: postChat } = useMutation({
     mutationKey: ["postChat"],
-    mutationFn: (text: string) =>
-      chatApi.post({
-        message: text,
-      }),
+    mutationFn: (text: string) => {
+      const temps = [...messages, { user: "user", text }];
+      return chatApi.post({
+        messages: temps.map((prop) => ({
+          role: prop.user === "user" ? "user" : "assistant",
+          content: prop.text,
+        })),
+      });
+    },
     onSuccess: (res) => {
       setMessage({
         user: "bot",

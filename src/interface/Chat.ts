@@ -1,12 +1,22 @@
+import { Message } from "@/interface/Gpt";
+
 export interface CreateChat {
-  message: string;
-  prompt?: string;
+  messages: Message[];
 }
 
 export function isCreateChat(obj: any): obj is CreateChat {
   return (
-    typeof obj === "object" &&
-    typeof obj.message === "string" &&
-    (typeof obj.prompt === "string" || typeof obj.prompt === "undefined")
+    obj.messages &&
+    Array.isArray(obj.messages) &&
+    obj.messages.every(
+      (message: any) =>
+        message &&
+        typeof message === "object" &&
+        (message.role === "user" ||
+          message.role === "assistant" ||
+          message.role === "system") &&
+        message.content &&
+        typeof message.content === "string",
+    )
   );
 }

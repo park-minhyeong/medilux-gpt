@@ -1,10 +1,10 @@
 import httpRequest from "../axios";
-import { CreateGptResponse } from "@/interface/Gpt";
+import { CreateGptResponse, Message } from "@/interface/Gpt";
 
 const api = httpRequest.api("v1");
 
 interface CreateChat {
-  message: string;
+  messages: Message[];
   prompt?: string;
 }
 

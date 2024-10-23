@@ -1,26 +1,21 @@
 import httpRequest from "../axios";
-import { CreateGptRequest } from "@/interface/Gpt";
+import { CreateGptRequest, Message } from "@/interface/Gpt";
 
 const api = httpRequest.gpt("v1");
 
-async function postChat(message: string, apiKey: string) {
+async function postChat(messages: Message[], apiKey: string) {
   return await api.post<CreateGptRequest>(
     "/chat/completions",
     {
       model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "assistant",
-          content: message,
-        },
-      ],
+      messages,
     },
     {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
-    }
+    },
   );
 }
 
