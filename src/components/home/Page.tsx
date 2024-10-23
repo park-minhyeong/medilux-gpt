@@ -35,10 +35,14 @@ export default function Home() {
               }}
             >
               <Shelf.Col>
-                <Input state={[username, setUsername]} />
+                <Input
+                  state={[username, setUsername]}
+                  placeholder="아이디를 입력해주세요"
+                />
                 <Input
                   state={[password, setPassword]}
                   type="password"
+                  placeholder="비밀번호를 입력해주세요"
                   onKeyDown={(e) => {
                     if (!username || !password) return;
                     if (e.key === "Enter") {
