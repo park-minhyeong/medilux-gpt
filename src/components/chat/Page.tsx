@@ -16,13 +16,13 @@ export default function Chat() {
   const container = {
     positions: "relative",
     sizes: "w-full min-h-screen",
-    pressures: "px-1.5",
+    pressures: "pt-1 px-1.5",
   };
   const body = {
     displays: "flex flex-col gap-y-3.5",
-    sizes: "w-full h-92 xs:h-100 sm:h-120 md:h-200",
+    sizes: "w-full h-92 xs:h-100 sm:h-120 md:h-160",
     styles: "overflow-y-scroll",
-    boundaries: "border-2 rounded-md p-3.5 border-green-dark",
+    boundaries: "border-4 rounded-md p-3.5 border-[#023076]",
   };
   useEffect(() => {
     if (!isSignIn && !isLoading) {
@@ -36,12 +36,16 @@ export default function Chat() {
         [
           "setting",
           <Modal
-            key="asdf"
+            key="setting"
             titles={{
-              title: "asdf",
+              title: "설정",
+              subtitle: "",
+            }}
+            option={{
+              height: "lg",
             }}
           >
-            asdf
+            <div>asfd</div>
           </Modal>,
         ],
       ]}
@@ -74,7 +78,9 @@ export default function Chat() {
             option={{
               height: "h-20",
               font: "text-2xl",
+              boundary: "border-4 rounded-md border-[#023076]",
             }}
+            placeholder="Enter를 눌러 메시지를 전송하세요!"
             onKeyDown={(e) => {
               if (!text) return;
               if (e.key === "Enter") {
