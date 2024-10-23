@@ -10,7 +10,7 @@ async function postChat(message: string, apiKey: string) {
       model: "gpt-3.5-turbo",
       messages: [
         {
-          role: "user",
+          role: "assistant",
           content: message,
         },
       ],
@@ -20,7 +20,7 @@ async function postChat(message: string, apiKey: string) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
-    },
+    }
   );
 }
 
