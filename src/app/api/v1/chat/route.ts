@@ -12,7 +12,7 @@ async function POST(request: NextRequest) {
     if (!apiKey) return new NextResponse("Unauthorized", { status: 401 });
     if (!isCreateChat(body))
       return new NextResponse("Bad Request", { status: 400 });
-    const response = await gptApi.post(body.messages.slice(-10), apiKey);
+    const response = await gptApi.post(body.messages.slice(-12), apiKey);
     return new NextResponse(JSON.stringify(response.data), {
       status: response.status,
     });
