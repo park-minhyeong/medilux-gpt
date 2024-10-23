@@ -6,11 +6,13 @@ import useChat from "@/components/chat/useChat";
 import Action from "fast-jsx/layout/template/Action";
 import { useActionStore } from "fast-jsx/store";
 import MessageMolecule from "./molecule/Message.molecule";
+import useSign from "@/hook/useSIgn";
 
 export default function Chat() {
   const [text, setText] = useState<string>();
   const { setModal } = useActionStore();
   const { messages, setMessage, postChat } = useChat();
+  const { isLoading, isSignIn } = useSign();
   const container = {
     positions: "relative",
     sizes: "w-full min-h-screen",
@@ -22,6 +24,12 @@ export default function Chat() {
     styles: "overflow-y-scroll",
     boundaries: "border-2 rounded-md p-3.5 border-green-dark",
   };
+  useEffect(() => {
+    if (!isSignIn && !isLoading) {
+      alert("로그인이 필요합니다.");
+      window.location.href = "/";
+    }
+  }, [isSignIn, isLoading]);
   return (
     <Action.Show
       actions={[
