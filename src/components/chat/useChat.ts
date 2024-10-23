@@ -3,15 +3,19 @@ import { chatApi } from "@/connection";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface Message {
+  user: "user" | "bot";
+  text: string;
+}
 interface ChatStoreProps {
-  messages: string[];
-  setMessage: (message: string) => void;
+  messages: Message[];
+  setMessage: (message: Message) => void;
 }
 const useChatStore = create(
   persist<ChatStoreProps>(
     (set, get) => ({
       messages: [],
-      setMessage: (message: string) => {
+      setMessage: (message: Message) => {
         set((state) => {
           return {
             ...state,
@@ -20,21 +24,24 @@ const useChatStore = create(
         });
       },
     }),
-    { name: "chatStorage" },
-  ),
+    { name: "chatStorage" }
+  )
 );
 
 export default function useChat() {
   const { messages, setMessage } = useChatStore();
   const { mutate: postChat } = useMutation({
     mutationKey: ["postChat"],
-    mutationFn: (message: string) =>
+    mutationFn: (text: string) =>
       chatApi.post({
-        message,
+        message: text,
       }),
     onSuccess: (res) => {
-      setMessage(res.choices[0].message.content);
+      setMessage({
+        user: "bot",
+        text: res.choices[0].message.content,
+      });
     },
   });
-  return { messages, postChat };
+  return { messages, setMessage, postChat };
 }
