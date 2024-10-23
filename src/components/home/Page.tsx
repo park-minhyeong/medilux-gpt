@@ -1,11 +1,19 @@
 "use client";
 import Image from "next/image";
 import { cn } from "fast-jsx/util";
-import { Button, Shelf } from "fast-jsx";
+import { Button, Input, Modal, Shelf } from "fast-jsx";
 import { useRouter } from "next/navigation";
+import { useActionStore } from "fast-jsx/store";
+import useSign from "@/hook/useSIgn";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const { setModal } = useActionStore();
+
+  const [username, setUsername] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const { signIn } = useSign();
   const body = {
     displays: "flex justify-between",
     width: "w-full max-w-3xl",
@@ -13,6 +21,34 @@ export default function Home() {
   };
   return (
     <Shelf.Center
+      action={{
+        shows: [
+          [
+            "signIn",
+            <Modal
+              key="signIn"
+              titles={{
+                title: "로그인",
+              }}
+              option={{
+                height: "lg",
+              }}
+            >
+              <Input state={[username, setUsername]} />
+              <Input
+                state={[password, setPassword]}
+                type="password"
+                onKeyDown={(e) => {
+                  if (!username || !password) return;
+                  if (e.key === "Enter") {
+                    signIn({ username, password });
+                  }
+                }}
+              />
+            </Modal>,
+          ],
+        ],
+      }}
       option={{
         display: "gap-y-7.5",
       }}
@@ -31,7 +67,7 @@ export default function Home() {
       </div>
       <Button
         title="시작하기"
-        onClick={() => router.push("/chat")}
+        onClick={() => setModal("signIn")}
         option={{ width: "w-48", height: "h-12", font: "text-xl" }}
       />
     </Shelf.Center>
