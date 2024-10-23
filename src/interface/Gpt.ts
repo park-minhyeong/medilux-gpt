@@ -1,8 +1,15 @@
 type Role = "user" | "assistant" | "system";
 
-interface Message {
+export interface Message {
   role: Role;
   content: string;
+}
+export function isMessage(obj: any): obj is Message {
+  return (
+    typeof obj.role === "string" &&
+    ["user", "assistant", "system"].includes(obj.role) &&
+    typeof obj.content === "string"
+  );
 }
 
 export interface CreateGptRequest {
