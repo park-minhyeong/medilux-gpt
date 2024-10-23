@@ -2,10 +2,11 @@
 import Image from "next/image";
 import { cn } from "fast-jsx/util";
 import { Button, Input, Modal, Shelf } from "fast-jsx";
-import { useRouter } from "next/navigation";
 import { useActionStore } from "fast-jsx/store";
 import useSign from "@/hook/useSIgn";
 import { useState, KeyboardEvent } from "react";
+import HeaderMolecule from "@/components/home/molecule/Header.molecule";
+import FooterMolecule from "@/components/home/molecule/Footer.molecule";
 
 export default function Home() {
   const { setModal } = useActionStore();
@@ -90,6 +91,8 @@ export default function Home() {
           boundary: "border-white border-2 rounded-md duration-500",
         }}
       />
+      <HeaderMolecule />
+      <FooterMolecule />
     </Shelf.Center>
   );
 }
