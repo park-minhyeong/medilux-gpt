@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Button, Input, Modal, Shelf } from "fast-jsx";
+import { useEffect, useRef, useState } from "react";
+import { Button, Input, Modal } from "fast-jsx";
 import { cn } from "fast-jsx/util";
 import useChat from "@/components/chat/useChat";
 import Action from "fast-jsx/layout/template/Action";
@@ -31,6 +31,12 @@ export default function Chat() {
       window.location.href = "/";
     }
   }, [isSignIn, isLoading]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
   return (
     <Action.Show
       actions={[
@@ -79,7 +85,7 @@ export default function Chat() {
             position: "absolute top-1.5 right-1.5",
           }}
         />
-        <div className={cn(body)}>
+        <div ref={scrollRef} className={cn(body)}>
           {messages?.map((message) => (
             <MessageMolecule
               key={message.content}
