@@ -7,6 +7,8 @@ import Action from "fast-jsx/layout/template/Action";
 import { useActionStore } from "fast-jsx/store";
 import MessageMolecule from "./molecule/Message.molecule";
 import useSign from "@/hook/useSIgn";
+import toXlsx from "@/util/toXlsx";
+import { Message } from "@/interface/Gpt";
 
 export default function Chat() {
   const [text, setText] = useState<string>();
@@ -66,6 +68,30 @@ export default function Chat() {
     >
       <div className={cn(container)}>
         <Button
+          title="출력"
+          onClick={() => {
+            const results: Message[] = [
+              {
+                role: "system",
+                content: prompt,
+              },
+              ...messages,
+            ];
+            toXlsx({
+              data: results.map((message) => ({
+                role: message.role,
+                content: message.content,
+              })),
+            });
+          }}
+          option={{
+            width: "w-12",
+            height: "h-12",
+            font: "text-lg",
+            position: "absolute top-1.5 right-28",
+          }}
+        />
+        <Button
           title="초기화"
           onClick={() => clearMessages()}
           option={{
@@ -82,7 +108,7 @@ export default function Chat() {
             width: "w-12",
             height: "h-12",
             font: "text-lg",
-            position: "absolute top-1.5 right-1.5",
+            position: "absolute top-1.5 right-2",
           }}
         />
         <div ref={scrollRef} className={cn(body)}>
