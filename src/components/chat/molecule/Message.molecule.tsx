@@ -17,7 +17,7 @@ export default function MessageMolecule(props: MessageProps) {
     backgrounds: "bg-white",
     pressures: "p-3.5",
     width: "w-full max-w-200",
-    styles: "border-2",
+    styles: "border-2 border-green-dark",
     radius: !option?.isMine
       ? "rounded-br-xl rounded-t-xl"
       : "rounded-bl-xl rounded-t-xl",

@@ -27,13 +27,14 @@ export default function Chat() {
   const container = {
     positions: "relative",
     sizes: "w-full min-h-screen",
-    pressures: "pt-1 px-1.5",
+    pressures: "pt-1 px-1.5 bg-yellow-50",
   };
   const body = {
     displays: "flex flex-col gap-y-3.5",
     sizes: "w-full h-92 xs:h-100 sm:h-120 md:h-220",
     styles: "overflow-y-scroll",
-    boundaries: "border-4 rounded-md p-3.5 border-[#023076]",
+    boundaries:
+      "border-4  rounded-md p-3.5 border-green-dark bg-green-light/30",
   };
   useEffect(() => {
     if (!isSignIn && !isLoading) {
@@ -94,6 +95,7 @@ export default function Chat() {
               subtitle: "텍스트 변경시 자동 저장",
             }}
             option={{
+              width: "2xl",
               height: "2xl",
             }}
           >
@@ -101,8 +103,8 @@ export default function Chat() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               className={cn({
-                sizes: "w-full h-72",
-                styles: "border-2 border-[#023076] rounded-md p-3.5",
+                sizes: "w-full h-160",
+                styles: "border-2 border-green-dark rounded-md p-3.5 text-xl",
               })}
             />
           </Modal>,
@@ -117,6 +119,7 @@ export default function Chat() {
             width: "w-12",
             height: "h-12",
             font: "text-lg",
+            background: "bg-green-dark",
           }}
         />
         <Button
@@ -141,6 +144,7 @@ export default function Chat() {
             height: "h-12",
             font: "text-lg",
             position: "absolute top-1.5 right-28",
+            background: "bg-green-dark",
           }}
         />
         <Button
@@ -151,6 +155,7 @@ export default function Chat() {
             height: "h-12",
             font: "text-lg",
             position: "absolute top-1.5 right-15",
+            background: "bg-green-dark",
           }}
         />
         <Button
@@ -161,6 +166,7 @@ export default function Chat() {
             height: "h-12",
             font: "text-lg",
             position: "absolute top-1.5 right-2",
+            background: "bg-green-dark",
           }}
         />
         <div ref={scrollRef} className={cn(body)}>
@@ -180,7 +186,7 @@ export default function Chat() {
             option={{
               height: "h-20",
               font: "text-2xl",
-              boundary: "border-4 rounded-md border-[#023076]",
+              boundary: "border-4 rounded-md border-green-dark",
             }}
             placeholder="Enter를 눌러 메시지를 전송하세요!"
             onKeyDown={(e) => {
