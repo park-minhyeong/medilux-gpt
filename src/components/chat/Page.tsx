@@ -9,12 +9,20 @@ import MessageMolecule from "./molecule/Message.molecule";
 import useSign from "@/hook/useSIgn";
 import toXlsx from "@/util/toXlsx";
 import { Message } from "@/interface/Gpt";
+import { results } from "@/asset/test";
 
 export default function Chat() {
   const [text, setText] = useState<string>();
-  const { setModal } = useActionStore();
-  const { messages, setMessage, postChat, clearMessages, setPrompt, prompt } =
-    useChat();
+  const { clearModal, setModal } = useActionStore();
+  const {
+    messages,
+    setMessage,
+    setMessages,
+    postChat,
+    clearMessages,
+    setPrompt,
+    prompt,
+  } = useChat();
   const { isLoading, isSignIn } = useSign();
   const container = {
     positions: "relative",
@@ -23,7 +31,7 @@ export default function Chat() {
   };
   const body = {
     displays: "flex flex-col gap-y-3.5",
-    sizes: "w-full h-92 xs:h-100 sm:h-120 md:h-160",
+    sizes: "w-full h-92 xs:h-100 sm:h-120 md:h-220",
     styles: "overflow-y-scroll",
     boundaries: "border-4 rounded-md p-3.5 border-[#023076]",
   };
@@ -43,6 +51,41 @@ export default function Chat() {
     <Action.Show
       actions={[
         [
+          "load",
+          <Modal
+            key="load"
+            titles={{
+              title: "불러오기",
+              subtitle: "테스트 데이터를 불러옵니다.",
+            }}
+          >
+            <div className="w-full flex justify-between">
+              {results.map((result) => (
+                <Button
+                  key={result.name}
+                  title={result.name}
+                  onClick={() => {
+                    const prompt = result.messages.find(
+                      (message) => message.role === "system"
+                    )?.content;
+                    if (!prompt) return;
+                    setPrompt(prompt);
+                    setMessages(
+                      result.messages.filter(
+                        (message) => message.role !== "system"
+                      )
+                    );
+                    clearModal();
+                  }}
+                  option={{
+                    background: "bg-green-dark",
+                  }}
+                />
+              ))}
+            </div>
+          </Modal>,
+        ],
+        [
           "setting",
           <Modal
             key="setting"
@@ -51,7 +94,7 @@ export default function Chat() {
               subtitle: "텍스트 변경시 자동 저장",
             }}
             option={{
-              height: "lg",
+              height: "2xl",
             }}
           >
             <textarea
@@ -67,6 +110,15 @@ export default function Chat() {
       ]}
     >
       <div className={cn(container)}>
+        <Button
+          title="결과"
+          onClick={() => setModal("load")}
+          option={{
+            width: "w-12",
+            height: "h-12",
+            font: "text-lg",
+          }}
+        />
         <Button
           title="출력"
           onClick={() => {

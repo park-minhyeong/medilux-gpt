@@ -8,6 +8,7 @@ interface ChatStoreProps {
   messages: Message[];
   clearMessages: () => void;
   setMessage: (message: Message) => void;
+  setMessages: (messages: Message[]) => void;
   prompt: string;
   setPrompt: (prompt: string) => void;
 }
@@ -31,16 +32,30 @@ const useChatStore = create(
           };
         });
       },
+      setMessages: (messages: Message[]) => {
+        set((state) => {
+          return {
+            ...state,
+            messages,
+          };
+        });
+      },
       prompt: defaultText,
       setPrompt: (prompt: string) => set({ prompt }),
     }),
-    { name: "chatStorage" },
-  ),
+    { name: "chatStorage" }
+  )
 );
 
 export default function useChat() {
-  const { messages, setMessage, prompt, setPrompt, clearMessages } =
-    useChatStore();
+  const {
+    messages,
+    setMessage,
+    setMessages,
+    prompt,
+    setPrompt,
+    clearMessages,
+  } = useChatStore();
   const { mutate: postChat } = useMutation({
     mutationKey: ["postChat"],
     mutationFn: (content: string) => {
@@ -68,6 +83,7 @@ export default function useChat() {
     setPrompt,
     messages,
     setMessage,
+    setMessages,
     postChat,
     clearMessages,
   };
